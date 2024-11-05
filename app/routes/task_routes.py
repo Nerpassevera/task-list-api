@@ -22,3 +22,13 @@ def create_task():
     db.session.commit()
 
     return {"task": new_task.to_dict()}, 201
+@bp.get("/<task_id>")
+def get_one_task(task_id):
+    try:
+        task_id = int(task_id)
+    except ValueError:
+        return {}
+    query = db.select(Task).where(Task.id == task_id)
+    task = db.session.scalar(query)
+
+    return { "task": task.to_dict() }, 200
