@@ -8,6 +8,9 @@ bp = Blueprint("tasks_bp", __name__, url_prefix="/tasks")
 @bp.post("/", strict_slashes=False)
 def create_task():
     req_body = request.get_json()
+    if "title" not in req_body or "description" not in req_body:
+        message = {"details": "Invalid data"}
+        abort(make_response(message, 400))
     new_task = Task.from_dict(req_body)
 
     db.session.add(new_task)
@@ -62,3 +65,11 @@ def update_task(task_id):
 
     print({ "task": task.to_dict() })
     return { "task": task.to_dict() }, 200
+
+@bp.delete("/<task_id>", strict_slashes=False)
+def delete_task(task_id):
+    task = validate_task(task_id)
+    db.session.delete(task)
+    db.session.commit()
+
+    return {"details": f'Task {task.id} "{task.title}" successfully deleted'}, 200
