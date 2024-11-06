@@ -1,4 +1,5 @@
-from flask import Blueprint, request, make_response, abort, Response
+from flask import Blueprint, request, make_response, abort
+from datetime import datetime
 from app.models.task import Task
 from app.db import db
 
@@ -75,3 +76,19 @@ def delete_task(task_id):
     db.session.commit()
 
     return {"details": f'Task {task.id} "{task.title}" successfully deleted'}, 200
+
+@bp.patch("/<task_id>/mark_complete")
+def mark_task_completed(task_id):
+    task = validate_task(task_id)
+    task.completed_at = datetime.now()
+    db.session.commit()
+
+    return { "task": task.to_dict() }, 200
+
+@bp.patch("/<task_id>/mark_incomplete")
+def mark_task_incompleted(task_id):
+    task = validate_task(task_id)
+    task.completed_at = None
+    db.session.commit()
+
+    return { "task": task.to_dict() }, 200
