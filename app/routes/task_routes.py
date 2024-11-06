@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response, abort, Response
 from app.models.task import Task
 from app.db import db
 
@@ -8,7 +8,6 @@ bp = Blueprint("tasks_bp", __name__, url_prefix="/tasks")
 @bp.post("/", strict_slashes=False)
 def create_task():
     req_body = request.get_json()
-    req_body["completed_at"] = req_body.get("completed_at", None)
     new_task = Task.from_dict(req_body)
 
     db.session.add(new_task)
@@ -29,11 +28,37 @@ def get_all_tasks():
 
 @bp.get("/<task_id>", strict_slashes=False)
 def get_one_task(task_id):
+    task = validate_task(task_id)
+
+    return { "task": task.to_dict() }, 200
+
+def validate_task(task_id):
     try:
         task_id = int(task_id)
     except ValueError:
-        return {}
+        message = { "message": f"Task ID {task_id} is invalid"}
+        abort(make_response(message, 400))
+
     query = db.select(Task).where(Task.id == task_id)
     task = db.session.scalar(query)
 
+    if not task:
+        message = {"message": f"Task with ID {task_id} was not found"}
+        abort(make_response(message, 404))
+
+    return task
+
+@bp.put("/<task_id>", strict_slashes=False)
+def update_task(task_id):
+    req_body = request.get_json()
+    req_body["completed_at"] = req_body.get("completed_at", None)
+    task = validate_task(task_id)
+
+    task.title = req_body["title"]
+    task.description = req_body["description"]
+    task.completed_at = req_body["completed_at"]
+
+    db.session.commit()
+
+    print({ "task": task.to_dict() })
     return { "task": task.to_dict() }, 200

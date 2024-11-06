@@ -17,9 +17,11 @@ class Task(db.Model):
             "description": self.description,
             "is_complete": bool(self.completed_at)
         }
-    
+
     @classmethod
     def from_dict(cls, data):
+        data["completed_at"] = data.get("completed_at", None)
+
         task = Task(
             title=data["title"],
             description=data["description"],
