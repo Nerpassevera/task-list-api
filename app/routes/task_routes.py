@@ -20,7 +20,9 @@ def create_task():
 
 @bp.get("/", strict_slashes=False)
 def get_all_tasks():
-    query = db.select(Task).order_by(Task.id)
+
+    sort = request.args.get("sort")
+    query = db.select(Task).order_by(Task.title.desc() if sort=="desc" else Task.title)
 
     for attribute, value in request.args.items():
         if hasattr(Task, attribute):
