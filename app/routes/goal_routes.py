@@ -43,7 +43,7 @@ def get_one_goal(goal_id):
 def update_goal(goal_id):
     req_body = request.get_json()
     goal = validate_model(Goal, goal_id)
-    set_new_attributes(Goal, req_body)
+    set_new_attributes(goal, req_body)
 
     db.session.commit()
 
@@ -56,4 +56,4 @@ def delete_goal(goal_id):
     db.session.delete(goal)
     db.session.commit()
 
-    return {"details": f'goal {goal.id} "{goal.title}" successfully deleted'}, 200
+    return {"details": f'Goal {goal.id} "{goal.title}" successfully deleted'}, 200
