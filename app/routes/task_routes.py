@@ -42,12 +42,11 @@ def get_one_task(task_id):
 
 @bp.put("/<task_id>", strict_slashes=False)
 def update_task(task_id):
+    task = validate_model(Task, task_id)
     req_body = request.get_json()
     req_body["completed_at"] = req_body.get("completed_at", None)
-    task = validate_model(Task, task_id)
 
     set_new_attributes(task, req_body)
-    print(*task.to_dict(), sep='\n')
 
     db.session.commit()
     return { "task": task.to_dict() }, 200
@@ -92,7 +91,10 @@ def send_task_complete_message(task_title):
     message_status = requests.post(
         url="https://slack.com/api/chat.postMessage", 
         json=request_data,
-        headers={"Authorization": environ.get('SLACK_API_KEY')},
+        headers={
+            "Authorization": environ.get('SLACK_API_KEY'),
+            "Content Type": "application/json"
+            },
         timeout=1
     )
 
