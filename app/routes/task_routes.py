@@ -19,10 +19,7 @@ def get_all_tasks():
 
 @bp.get("/<task_id>", strict_slashes=False)
 def get_one_task(task_id):
-    task = validate_model(Task, task_id)
-
-    return { "task": task.to_dict() if task else task}, 200
-
+    return get_one_instance(Task, task_id)
 
 @bp.put("/<task_id>", strict_slashes=False)
 def update_task(task_id):

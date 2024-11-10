@@ -18,10 +18,7 @@ def get_all_goals():
 
 @bp.get("/<goal_id>", strict_slashes=False)
 def get_one_goal(goal_id):
-    goal = validate_model(Goal, goal_id)
-
-    return { "goal": goal.to_dict() }, 200
-
+    return get_one_instance(Goal, goal_id)
 
 @bp.put("/<goal_id>", strict_slashes=False)
 def update_goal(goal_id):

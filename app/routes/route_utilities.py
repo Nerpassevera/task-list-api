@@ -48,3 +48,8 @@ def get_all_instances(cls, args):
     instances = db.session.scalars(query)
     return [instance.to_dict() for instance in instances], 200
 
+def get_one_instance(cls, instance_id):
+    instance = validate_model(cls, instance_id)
+
+    return { cls.__name__.lower(): instance.to_dict() if instance else instance}, 200
+
