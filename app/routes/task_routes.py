@@ -5,25 +5,17 @@ import requests
 
 from app.models.task import Task
 from app.db import db
-from app.routes.route_utilities import apply_filters, validate_model, set_new_attributes
+from app.routes.route_utilities import *
 
 bp = Blueprint("tasks_bp", __name__, url_prefix="/tasks")
 
 @bp.post("/", strict_slashes=False)
 def create_task():
-    req_body = request.get_json()
-    if "title" not in req_body or "description" not in req_body:
-        message = {"details": "Invalid data"}
-        abort(make_response(message, 400))
-    new_task = Task.from_dict(req_body)
-
-    db.session.add(new_task)
-    db.session.commit()
-
-    return {"task": new_task.to_dict()}, 201
+    return create_class_instance(Task, request, ["title", "description"])
 
 @bp.get("/", strict_slashes=False)
 def get_all_tasks():
+    print("MEMBERS: ", Task.__annotations__.keys())
 
     sort = request.args.get("sort")
     query = db.select(Task).order_by(Task.title.desc() if sort=="desc" else Task.title)

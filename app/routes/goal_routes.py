@@ -2,24 +2,14 @@ from flask import Blueprint, request, abort, make_response
 from app.models.goal import Goal
 from app.models.task import Task
 from app.db import db
-from app.routes.route_utilities import apply_filters, validate_model, set_new_attributes
+from app.routes.route_utilities import *
 
 bp = Blueprint("goal_bp", __name__, url_prefix="/goals")
 
 
 @bp.post("/", strict_slashes=False)
 def create_goal():
-    req_body = request.get_json()
-    if "title" not in req_body:
-        message = {"details": "Invalid data"}
-        abort(make_response(message, 400))
-
-    new_goal = Goal(req_body["title"])
-
-    db.session.add(new_goal)
-    db.session.commit()
-
-    return {"goal": new_goal.to_dict()}, 201
+    return create_class_instance(Goal, request, ["title"])
 
 
 @bp.get("/", strict_slashes=False)
