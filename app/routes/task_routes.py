@@ -63,9 +63,9 @@ def send_task_complete_message(task_title):
         json=request_data,
         headers={
             "Authorization": environ.get('SLACK_API_KEY'),
-            "Content Type": "application/json"
+            "Content-Type": "application/json"
             },
-        timeout=1
+        timeout=5
     )
 
     return message_status.json()["ok"]
