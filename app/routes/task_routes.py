@@ -15,15 +15,7 @@ def create_task():
 
 @bp.get("/", strict_slashes=False)
 def get_all_tasks():
-    print("MEMBERS: ", Task.__annotations__.keys())
-
-    sort = request.args.get("sort")
-    query = db.select(Task).order_by(Task.title.desc() if sort=="desc" else Task.title)
-
-    apply_filters(Task, request.args.items(), query)
-
-    tasks = db.session.scalars(query)
-    return [task.to_dict() for task in tasks], 200
+    return get_all_instances(Task, request.args)
 
 @bp.get("/<task_id>", strict_slashes=False)
 def get_one_task(task_id):

@@ -38,3 +38,13 @@ def create_class_instance(cls, request, required_fields):
     db.session.commit()
 
     return {cls.__name__.lower(): new_instance.to_dict()}, 201
+
+def get_all_instances(cls, args):
+    sort = args.get("sort")
+    query = db.select(cls).order_by(cls.title.desc() if sort=="desc" else cls.title)
+
+    apply_filters(cls, args.items(), query)
+
+    instances = db.session.scalars(query)
+    return [instance.to_dict() for instance in instances], 200
+

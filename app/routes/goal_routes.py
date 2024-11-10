@@ -14,14 +14,7 @@ def create_goal():
 
 @bp.get("/", strict_slashes=False)
 def get_all_goals():
-    sort = request.args.get("sort")
-    query = db.select(Goal).order_by(Goal.title.desc() if sort=="desc" else Goal.title)
-
-    apply_filters(Goal, request.args.items(), query)
-
-    goals = db.session.scalars(query)
-    return [goal.to_dict() for goal in goals], 200
-
+    return get_all_instances(Goal, request.args)
 
 @bp.get("/<goal_id>", strict_slashes=False)
 def get_one_goal(goal_id):
