@@ -11,7 +11,6 @@ bp = Blueprint("goal_bp", __name__, url_prefix="/goals")
 def create_goal():
     return create_class_instance(Goal, request, ["title"])
 
-
 @bp.get("/", strict_slashes=False)
 def get_all_goals():
     return get_all_instances(Goal, request.args)
@@ -26,11 +25,7 @@ def update_goal(goal_id):
 
 @bp.delete("/<goal_id>", strict_slashes=False)
 def delete_goal(goal_id):
-    goal = validate_model(Goal, goal_id)
-    db.session.delete(goal)
-    db.session.commit()
-
-    return {"details": f'Goal {goal.id} "{goal.title}" successfully deleted'}, 200
+    return delete_instance(Goal, goal_id)
 
 @bp.post("/<goal_id>/tasks")
 def assign_task_to_goal(goal_id):

@@ -27,11 +27,7 @@ def update_task(task_id):
 
 @bp.delete("/<task_id>", strict_slashes=False)
 def delete_task(task_id):
-    task = validate_model(Task, task_id)
-    db.session.delete(task)
-    db.session.commit()
-
-    return {"details": f'Task {task.id} "{task.title}" successfully deleted'}, 200
+    return delete_instance(Task, task_id)
 
 @bp.patch("/<task_id>/mark_complete")
 def mark_task_completed(task_id):
