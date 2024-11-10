@@ -53,8 +53,8 @@ def mark_task_incompleted(task_id):
 
 def send_task_complete_message(task_title):
     request_data = {
-    # "channel": "#api-test-channel", # Slack channel for tests
-    "channel": "U07GC9C8Y4X", # My Slack account ID
+    "channel": "#api-test-channel", # Slack channel for tests
+    # "channel": "U07GC9C8Y4X", # My Slack account ID
     "username": "Task List app",
     "text": f"Someone just completed the task \"{task_title}\""
     }
