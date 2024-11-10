@@ -22,14 +22,7 @@ def get_one_goal(goal_id):
 
 @bp.put("/<goal_id>", strict_slashes=False)
 def update_goal(goal_id):
-    req_body = request.get_json()
-    goal = validate_model(Goal, goal_id)
-    set_new_attributes(goal, req_body)
-
-    db.session.commit()
-
-    return { "goal": goal.to_dict() }, 200
-
+    return update_instance(Goal, goal_id, request)
 
 @bp.delete("/<goal_id>", strict_slashes=False)
 def delete_goal(goal_id):

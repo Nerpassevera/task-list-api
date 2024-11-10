@@ -23,14 +23,7 @@ def get_one_task(task_id):
 
 @bp.put("/<task_id>", strict_slashes=False)
 def update_task(task_id):
-    task = validate_model(Task, task_id)
-    req_body = request.get_json()
-    req_body["completed_at"] = req_body.get("completed_at", None)
-
-    set_new_attributes(task, req_body)
-
-    db.session.commit()
-    return { "task": task.to_dict() }, 200
+    return update_instance(Task, task_id, request)
 
 @bp.delete("/<task_id>", strict_slashes=False)
 def delete_task(task_id):
