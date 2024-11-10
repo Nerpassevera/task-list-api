@@ -29,11 +29,12 @@ def set_new_attributes(instance, req_body):
 
 def create_class_instance(cls, request, required_fields):
     req_body = request.get_json()
-    for param in required_fields:
-        if param not in req_body:
-            message = {"details": "Invalid data"}
-            abort(make_response(message, 400))
-    new_instance = cls.from_dict(req_body)
+    try:
+        new_instance = cls.from_dict(req_body)
+    except KeyError as error:
+        message = {"details": f"Invalid request: missing {error.args[0]}"}
+        abort(make_response(message, 400))
+
     db.session.add(new_instance)
     db.session.commit()
 
