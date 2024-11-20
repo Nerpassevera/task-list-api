@@ -8,12 +8,9 @@ python:
   # - "3.4"
   # - "2.7"
 install:
+  - pip install urllib3<2.0  # Install a compatible version of urllib3
   - pip install -r requirements.txt
 script:
   - pytest
 # after_success:
 # - render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y openssl
-  - openssl version  # Check if OpenSSL was updated to 1.1.1 or higher
