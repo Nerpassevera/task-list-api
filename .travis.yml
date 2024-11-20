@@ -1,3 +1,4 @@
+dist: focal  # Используем Ubuntu 20.04
 language: python
 python:
   - "3.9"
@@ -6,7 +7,7 @@ services:
   - postgresql
 
 addons:
-  postgresql: "13"  # Ensure PostgreSQL 13 is used
+  postgresql: "13"
 
 env:
   global:
@@ -14,13 +15,14 @@ env:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install -y postgresql-13 postgresql-client-13  # Explicitly install PostgreSQL 13
+  - sudo apt-get install -y postgresql-13 postgresql-client-13
 
 before_script:
   - echo "Starting PostgreSQL..."
-  - sudo systemctl restart postgresql  # Restart PostgreSQL to ensure it starts properly
-  - psql --version  # Verify psql version
-  - psql -c 'create database task_list_api_test;' -U postgres || exit 1
+  - sudo sed -i 's/#port = 5432/port = 5432/' /etc/postgresql/13/main/postgresql.conf
+  - sudo systemctl restart postgresql || sudo service postgresql start
+  - psql --version
+  - psql -c 'create database task_list_api_test;' -U postgres || true
 
 install:
   - pip install -r requirements.txt
