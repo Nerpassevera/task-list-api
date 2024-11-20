@@ -11,5 +11,9 @@ install:
   - pip install -r requirements.txt
 script:
   - pytest
-after_success:
-- render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
+# after_success:
+# - render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y openssl
+  - openssl version  # Check if OpenSSL was updated to 1.1.1 or higher
