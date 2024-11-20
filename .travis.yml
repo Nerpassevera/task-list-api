@@ -1,29 +1,29 @@
 language: python
 python:
   - "3.9"
-  - "3.8"
-  - "3.7"
-
-install:
-  - pip install -r requirements.txt
 
 services:
   - postgresql
 
 addons:
-  postgresql: "13"
+  postgresql: "13"  # Ensure PostgreSQL 13 is used
 
 env:
   global:
     - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres@localhost:5432/task_list_api_test
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y postgresql-13 postgresql-client-13  # Explicitly install PostgreSQL 13
+
 before_script:
   - echo "Starting PostgreSQL..."
-  - psql -c '\l' -U postgres  # Проверить список баз
+  - sudo systemctl restart postgresql  # Restart PostgreSQL to ensure it starts properly
+  - psql --version  # Verify psql version
   - psql -c 'create database task_list_api_test;' -U postgres || exit 1
+
+install:
+  - pip install -r requirements.txt
 
 script:
   - pytest
-
-# after_success:
-#   - render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
