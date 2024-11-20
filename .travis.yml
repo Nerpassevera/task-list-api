@@ -3,23 +3,27 @@ python:
   - "3.9"
   - "3.8"
   - "3.7"
-  # - "3.6"
-  # - "3.5"
-  # - "3.4"
-  # - "2.7"
+
 install:
   - pip install -r requirements.txt
+
 services:
   - postgresql
 
 addons:
   postgresql: "13"
 
+env:
+  global:
+    - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres@localhost:5432/task_list_api_test
+
 before_script:
-  - psql -c 'create database task_list_api_test;' -U postgres
-  - echo $SLACK_API_KEY
-  - echo $SQLALCHEMY_DATABASE_URI
+  - echo "Starting PostgreSQL..."
+  - psql -c '\l' -U postgres  # Проверить список баз
+  - psql -c 'create database task_list_api_test;' -U postgres || exit 1
+
 script:
   - pytest
+
 # after_success:
-# - render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
+#   - render deploy --service <SERVICE_NAME> --branch <BRANCH_NAME> --token $RENDER_API_KEY
