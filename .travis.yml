@@ -21,11 +21,12 @@ before_script:
   - psql --version
   - psql -c 'create database task_list_api_test;' -U postgres || true
   - psql -c '\l' -U postgres
+  - curl --version
 install:
   - pip install -r requirements.txt
 script:
   - pytest
 after_success:
   - echo "Deploying to Render..."
-  - echo curl -X POST -H "Authorization: Bearer $RENDER_API_KEY" "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
-  - curl -X POST -H "Authorization: Bearer $RENDER_API_KEY" "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
+  - echo "RENDER_API_KEY: ${RENDER_API_KEY}"
+  - curl -X POST -H "Authorization: Bearer ${RENDER_API_KEY}" "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
