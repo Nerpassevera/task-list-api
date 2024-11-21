@@ -29,4 +29,4 @@ script:
 after_success:
   - echo "Deploying to Render..."
   - echo "RENDER_API_KEY: ${RENDER_API_KEY}"
-  - curl -X POST -H "Authorization: Bearer ${RENDER_API_KEY}" "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
+  - curl -X POST "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
