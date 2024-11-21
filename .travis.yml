@@ -27,4 +27,6 @@ script:
   - pytest
 after_success:
   - echo "Deploying to Render..."
-  - curl -X POST -H "Authorization: Bearer $RENDER_API_KEY "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
+  # - curl -X POST -H "Authorization: Bearer $RENDER_API_KEY "https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM"
+  - curl --location --request POST 'https://api.render.com/deploy/srv-csmrpdaj1k6c73dnhqi0?key=hVyereic-JM' --header 'Authorization: Bearer $RENDER_API_KEY'
+# --header 'Cookie: __cf_bm=A4oQNGK8gQLyT.QHJYJ2jjze4pmrOLs4Wf3PiWRex.s-1732150898-1.0.1.1-rYYpXDUiddPWt.Q4H2ZvcNhc5FWuJ7UM3JdpJRUWLZ1wBRzUoVBvbCJeX5RHXkFeGmJyg6P.tGNu_ytkQlH5YQ'
