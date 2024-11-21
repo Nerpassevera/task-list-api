@@ -11,7 +11,7 @@ addons:
 
 env:
   global:
-    - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres@localhost:5432/task_list_api_test
+    - SQLALCHEMY_TEST_DATABASE_URI=postgresql+psycopg2://postgres@localhost:5432/task_list_api_test
 
 before_install:
   - sudo apt-get update
