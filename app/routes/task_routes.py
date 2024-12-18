@@ -9,6 +9,7 @@ from app.routes.route_utilities import *
 
 bp = Blueprint("tasks_bp", __name__, url_prefix="/tasks")
 
+
 @bp.post("/", strict_slashes=False)
 def create_task():
     return create_class_instance(Task, request, ["title", "description"])
