@@ -36,12 +36,12 @@ def mark_task_completed(task_id):
     task.completed_at = datetime.now()
     db.session.commit()
 
-    message_is_sent = send_task_complete_message(task.title)
+    try:
+        send_task_complete_message(task.title)
 
-    if not message_is_sent:
-        raise Exception(
-            "An error occured during notification sending!\
-                Please connect to the Task List developer!")
+    except Exception as e:
+        raise Exception("An error occurred during notification sending! Please connect to the Task List developer!") from e
+    
     return { "task": task.to_dict() }, 200
 
 @bp.patch("/<task_id>/mark_incomplete")
@@ -68,6 +68,5 @@ def send_task_complete_message(task_title):
             },
         timeout=5
     )
-    print(message_status)
 
     return message_status.json()["ok"]
