@@ -68,5 +68,6 @@ def send_task_complete_message(task_title):
             },
         timeout=5
     )
+    print(message_status)
 
     return message_status.json()["ok"]
