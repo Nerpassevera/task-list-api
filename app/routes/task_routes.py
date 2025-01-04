@@ -53,7 +53,7 @@ def mark_task_incompleted(task_id):
     return { "task": task.to_dict() }, 200
 
 def send_task_complete_message(task_title):
-    print(os.environ.get('SLACK_API_KEY'))
+    print(environ.get('SLACK_API_KEY'))
     request_data = {
     "channel": "#api-test-channel", # Slack channel for tests
     # "channel": "U07GC9C8Y4X", # My Slack account ID
