@@ -71,8 +71,9 @@ def send_task_complete_message(task_title):
     )
     print(message_status)
     print('____________________________________________')
-    print(message_status.json()['message'])
+    # print(message_status.json()['message'])
+    print(message_status.ok)
     print('____________________________________________')
-    print(message_status.json())
+    print(message_status.error)
 
     return message_status.json()["ok"]
