@@ -113,6 +113,7 @@ This backend application is part of a full-stack project created to practice and
 
 ## Future Plans
 
+- Create a meta route with information of endpoints available
 - Allow users to dynamically change the Slack channel for notifications.
 - Create user accounts
 
