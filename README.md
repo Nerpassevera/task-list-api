@@ -1,57 +1,125 @@
-# Task List API
 
-## Skills Assessed
+# Task List API Backend
 
-- Gathering technical requirements from written documentation
-- Reading, writing, and using tests
-- Demonstrating understanding of the client-server model, request-response cycle and conventional RESTful routes
-- Driving development with independent research, experimentation, and collaboration
-- Reading and using existing external web APIs
-- Using Postman as part of the development workflow
-- Using git as part of the development workflow
+A backend RESTful API built with Flask to manage tasks and goals in a full-stack project. The API is integrated with a PostgreSQL database and provides endpoints for creating, reading, updating, and deleting tasks and goals. 
 
-Working with the Flask package:
+## About the Project
 
-- Creating models
-- Creating conventional RESTful CRUD routes for a model
-- Reading query parameters to create custom behavior
-- Create unconventional routes for custom behavior
-- Apply knowledge about making requests in Python, to call an API inside of an API
-- Apply knowledge about environment variables
-- Creating a one-to-many relationship between two models
+This backend application is part of a full-stack project created to practice and strengthen skills in backend development, API design, and database integration. It serves as the server-side component of the TaskList application.
 
-## Goals
+### Deployed Application
 
-There's so much we want to do in the world! When we organize our goals into smaller, bite-sized tasks, we'll be able to track them more easily, and complete them!
+- **Backend Deployment**: [Deployed Backend on Render](https://task-list-api-ai13.onrender.com)
+- **Frontend Deployment**: [Deployed Frontend on GitHub Pages](https://nerpassevera.github.io/task-list-front-end)
 
-If we make a web API to organize our tasks, we'll be able to create, read, update, and delete tasks as long as we have access to the Internet and our API is running!
+## Features
 
-We also want to do some interesting features with our tasks. We want to be able to:
+### Tasks
+- **Create Tasks**: Add new tasks.
+- **Delete Tasks**: Remove tasks from the list.
+- **Read Tasks**: Retrieve all tasks or a single task.
+- **Update Tasks**: Update task information.
+- **Mark Tasks as Completed/Incompleted**: Change the task status.
+- **Slack Notifications**: Notify a Slack channel when a task is marked as completed.
 
-- Sort tasks
-- Mark them as complete
-- Get feedback about our task list through Slack
-- Organize tasks with goals
+### Goals
+- **Create Goals**: Add new goals.
+- **Delete Goals**: Remove goals from the list.
+- **Read Goals**: Retrieve all goals or a single goal.
+- **Update Goals**: Update goal information.
+- **Assign Tasks to Goals**: Link multiple tasks to specific goals.
 
-... and more!
+## Technologies Used
 
-## How to Complete and Submit
+- **Flask**: Lightweight web framework for Python.
+- **SQLAlchemy**: ORM for database management.
+- **Alembic**: Database migration tool.
+- **PostgreSQL**: Relational database for storing tasks and goals.
+- **Flask-CORS**: Manage Cross-Origin Resource Sharing for API.
+- **Python-dotenv**: Manage environment variables using a `.env` file.
 
-Go through the waves one-by-one and build the features of this API.
+## API Endpoints
 
-At submission time, no matter where you are, submit the project via Learn.
+### Tasks Routes
 
-## Project Directions
+| Method   | Endpoint                    | Description                              |
+|----------|-----------------------------|------------------------------------------|
+| GET      | `/tasks`                    | Retrieve all tasks.                      |
+| POST     | `/tasks`                    | Create a new task.                       |
+| GET      | `/tasks/<task_id>`          | Retrieve a specific task by ID.          |
+| PUT      | `/tasks/<task_id>`          | Update a specific task by ID.            |
+| DELETE   | `/tasks/<task_id>`          | Delete a specific task by ID.            |
+| PATCH    | `/tasks/<task_id>/mark_complete` | Mark a task as completed.           |
+| PATCH    | `/tasks/<task_id>/mark_incomplete` | Mark a task as incomplete.         |
 
-This project is designed to fulfill the features described in detail in each wave. The tests are meant to only guide your development.
+### Goals Routes
 
-1. [Setup](ada-project-docs/setup.md)
-1. [Testing](ada-project-docs/testing.md)
-1. [Wave 1: CRUD for one model](ada-project-docs/wave_01.md)
-1. [Wave 2: Using query params](ada-project-docs/wave_02.md)
-1. [Wave 3: Creating custom endpoints](ada-project-docs/wave_03.md)
-1. [Wave 4: Using an external web API](ada-project-docs/wave_04.md)
-1. [Wave 5: Creating a second model](ada-project-docs/wave_05.md)
-1. [Wave 6: Establishing a one-to-many relationship between two models](ada-project-docs/wave_06.md)
-1. [Wave 7: Deployment](ada-project-docs/wave_07.md)
-1. [Optional Enhancements](ada-project-docs/optional-enhancements.md)
+| Method   | Endpoint                    | Description                              |
+|----------|-----------------------------|------------------------------------------|
+| GET      | `/goals`                    | Retrieve all goals.                      |
+| POST     | `/goals`                    | Create a new goal.                       |
+| GET      | `/goals/<goal_id>`          | Retrieve a specific goal by ID.          |
+| PUT      | `/goals/<goal_id>`          | Update a specific goal by ID.            |
+| DELETE   | `/goals/<goal_id>`          | Delete a specific goal by ID.            |
+| POST     | `/goals/<goal_id>/tasks`    |Assign multiple tasks to a specific goal. |
+| GET      | `/goals/<goal_id>/tasks`	 |Retrieve all tasks associated with a goal.|
+
+## Setup Instructions
+
+### Prerequisites
+- Python 3.12 or higher
+- PostgreSQL
+
+### Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Nerpassevera/task-list-api.git
+    cd task-list-api
+    ```
+
+2. Create and activate a virtual environment:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Linux/macOS
+    venv\Scripts\activate   # On Windows
+    ```
+
+3. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Set up environment variables:
+    ```bash
+    cp .env.example .env
+    ```
+
+    Update `.env` with your database URL and Slack API key:
+    ```
+    SQLALCHEMY_DATABASE_URI=<your_database_url>
+    SLACK_API_KEY=<your_slack_api_key>
+    ```
+
+5. Run database migrations:
+    ```bash
+    flask db upgrade
+    ```
+
+6. Start the development server:
+    ```bash
+    flask run
+    ```
+
+## Future Plans
+
+- Allow users to dynamically change the Slack channel for notifications.
+- Create user accounts
+
+## Author
+
+- [Tatiana Trofimova](https://github.com/Nerpassevera)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
