@@ -9,9 +9,14 @@ from .models import task, goal
 
 def create_app(config=None):
     app = Flask(__name__)
-    CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "https://task-list-api-a1l3.onrender.com"]}})
+    CORS(app, resources={r"/*": {"origins": [
+        "http://localhost:5173",
+        "https://task-list-api-a1l3.onrender.com",
+        "https://nerpassevera.github.io"
+    ]}})
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        'SQLALCHEMY_DATABASE_URI')
 
     if config:
         # Merge `config` into the app's configuration
